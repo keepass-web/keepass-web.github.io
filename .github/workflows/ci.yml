@@ -1,0 +1,27 @@
+name: CI
+
+# Runs on pull requests targeting the gh-pages branch — the branch GitHub Pages
+# serves from. Every deployment arrives as a PR; this workflow verifies the
+# distributable before it can merge.
+
+on:
+  pull_request:
+    branches:
+      - gh-pages
+
+permissions: {}
+
+jobs:
+  verify:
+    name: Verify distributable
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7
+
+      # TODO: verify the SHA256 of each distributable against the checksum
+      # published with the corresponding release.
+      - name: Verify checksum
+        run: echo "Checksum verification not yet implemented"
