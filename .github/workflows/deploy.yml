@@ -45,6 +45,13 @@ jobs:
           curl -fsSL "${base}/keepassweb-0x67.html" -o keepassweb-0x67.html
           curl -fsSL "${base}/keepassweb.html"      -o keepassweb.html
 
+      - name: Verify attestations
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh attestation verify keepassweb-0x67.html --repo keepass-web/keepass-web
+          gh attestation verify keepassweb.html      --repo keepass-web/keepass-web
+
       - name: Push branch
         run: |
           tag="${{ inputs.release-tag }}"
