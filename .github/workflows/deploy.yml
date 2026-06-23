@@ -1,0 +1,59 @@
+name: Deploy
+
+# Opens a PR against gh-pages with the distributables from a keepass-web release.
+# Triggered manually — deployment is a deliberate act, decoupled from release velocity.
+#
+# Usage:
+#   1. Go to Actions → Deploy → Run workflow
+#   2. Enter the release tag (e.g. v0.1.0)
+#   3. Review and merge the opened PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-tag:
+        description: 'Release tag to deploy (e.g. v0.1.0)'
+        required: true
+        type: string
+
+# No permissions by default.
+permissions: {}
+
+jobs:
+  deploy:
+    name: Open deployment PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # push branch
+      pull-requests: write  # open PR
+    steps:
+      - name: Check out gh-pages
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7
+        with:
+          ref: gh-pages
+
+      # Release assets are publicly accessible — no token required.
+      - name: Download release assets
+        run: |
+          tag="${{ inputs.release-tag }}"
+          base="https://github.com/keepass-web/keepass-web/releases/download/${tag}"
+          curl -fsSL "${base}/keepassweb-0x67.html" -o keepassweb-0x67.html
+          curl -fsSL "${base}/keepassweb.html"      -o keepassweb.html
+
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ inputs.release-tag }}"
+          branch="deploy/${tag}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${branch}"
+          git add keepassweb-0x67.html keepassweb.html
+          git commit -m "Deploy ${tag}"
+          git push origin "${branch}"
+          gh pr create \
+            --base gh-pages \
+            --head "${branch}" \
+            --title "Deploy ${tag}" \
+            --body "Deploys [${tag}](https://github.com/keepass-web/keepass-web/releases/tag/${tag})."
