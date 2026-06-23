@@ -52,7 +52,8 @@ jobs:
           git add keepassweb-0x67.html keepassweb.html
           git commit -m "Deploy ${tag}"
           git push origin "${branch}"
-          gh pr create \
+          gh auth status
+          GH_DEBUG=api gh pr create \
             --base gh-pages \
             --head "${branch}" \
             --title "Deploy ${tag}" \
