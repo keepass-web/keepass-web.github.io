@@ -53,13 +53,30 @@ jobs:
           gh attestation verify keepassweb.html      --repo keepass-web/keepass-web
 
       - name: Push branch
+        env:
+          # index.html redirects the root to the app. Written from env so the
+          # YAML block scalar doesn't fight with the heredoc indentation.
+          INDEX_HTML: |
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>KeePass Web</title>
+              <meta http-equiv="refresh" content="0;url=keepassweb.html">
+              <script>window.location.replace('keepassweb.html')</script>
+            </head>
+            <body>
+              <a href="keepassweb.html">KeePass Web</a>
+            </body>
+            </html>
         run: |
           tag="${{ inputs.release-tag }}"
           branch="deploy/${tag}"
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${branch}"
-          git add keepassweb-0x67.html keepassweb.html
+          printf '%s' "$INDEX_HTML" > index.html
+          git add keepassweb-0x67.html keepassweb.html index.html
           git commit -m "Deploy ${tag}"
           git push --force origin "${branch}"
 
