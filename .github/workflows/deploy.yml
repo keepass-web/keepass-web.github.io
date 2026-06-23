@@ -51,7 +51,7 @@ jobs:
           git checkout -b "${branch}"
           git add keepassweb-0x67.html keepassweb.html
           git commit -m "Deploy ${tag}"
-          git push origin "${branch}"
+          git push --force origin "${branch}"
           gh auth status
           GH_DEBUG=api gh pr create \
             --base gh-pages \
