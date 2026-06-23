@@ -1,9 +1,8 @@
 name: Deploy
 
 # Opens a PR against gh-pages with the distributables from a keepass-web release.
-# Triggered manually — deployment is a deliberate act, decoupled from release velocity.
+# Triggered automatically by the keepass-web release workflow, or manually:
 #
-# Usage:
 #   1. Go to Actions → Deploy → Run workflow
 #   2. Enter the release tag (e.g. v0.1.0)
 #   3. Review and merge the opened PR
@@ -24,13 +23,19 @@ jobs:
     name: Open deployment PR
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # push branch
-      pull-requests: write  # open PR
+      contents: write  # push branch
     steps:
       - name: Check out gh-pages
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7
         with:
           ref: gh-pages
+
+      - name: Generate App token
+        id: app-token
+        uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547  # v1
+        with:
+          app-id: ${{ secrets.DEPLOY_BOT_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_BOT_APP_PRIVATE_KEY }}
 
       # Release assets are publicly accessible — no token required.
       - name: Download release assets
@@ -40,9 +45,7 @@ jobs:
           curl -fsSL "${base}/keepassweb-0x67.html" -o keepassweb-0x67.html
           curl -fsSL "${base}/keepassweb.html"      -o keepassweb.html
 
-      - name: Open PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push branch
         run: |
           tag="${{ inputs.release-tag }}"
           branch="deploy/${tag}"
@@ -52,8 +55,15 @@ jobs:
           git add keepassweb-0x67.html keepassweb.html
           git commit -m "Deploy ${tag}"
           git push --force origin "${branch}"
-          gh auth status
-          GH_DEBUG=api gh pr create \
+
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          tag="${{ inputs.release-tag }}"
+          branch="deploy/${tag}"
+          gh pr create \
+            --repo keepass-web/keepass-web.github.io \
             --base gh-pages \
             --head "${branch}" \
             --title "Deploy ${tag}" \
