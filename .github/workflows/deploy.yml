@@ -6,6 +6,10 @@ name: Deploy
 #   1. Go to Actions → Deploy → Run workflow
 #   2. Enter the release tag (e.g. v0.1.0)
 #   3. Review and merge the opened PR
+#
+# Every file committed to gh-pages is a verbatim copy of a release artifact —
+# nothing is created or modified during deployment. The files served from
+# keepass-web.app are byte-for-byte identical to the release download.
 
 on:
   workflow_dispatch:
@@ -42,41 +46,28 @@ jobs:
         run: |
           tag="${{ inputs.release-tag }}"
           base="https://github.com/keepass-web/keepass-web/releases/download/${tag}"
-          curl -fsSL "${base}/keepassweb-0x67.html" -o keepassweb-0x67.html
-          curl -fsSL "${base}/keepassweb.html"      -o keepassweb.html
+          curl -fsSL "${base}/keepass-web-0x67.html"    -o keepass-web-0x67.html
+          curl -fsSL "${base}/keepass-web-router.html"  -o keepass-web-router.html
+          curl -fsSL "${base}/index.html"               -o index.html
+          curl -fsSL "${base}/CNAME"                    -o CNAME
 
       - name: Verify attestations
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh attestation verify keepassweb-0x67.html --repo keepass-web/keepass-web
-          gh attestation verify keepassweb.html      --repo keepass-web/keepass-web
+          gh attestation verify keepass-web-0x67.html   --repo keepass-web/keepass-web
+          gh attestation verify keepass-web-router.html  --repo keepass-web/keepass-web
+          gh attestation verify index.html               --repo keepass-web/keepass-web
+          gh attestation verify CNAME                    --repo keepass-web/keepass-web
 
       - name: Push branch
-        env:
-          # index.html redirects the root to the app. Written from env so the
-          # YAML block scalar doesn't fight with the heredoc indentation.
-          INDEX_HTML: |
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="utf-8">
-              <title>KeePass Web</title>
-              <meta http-equiv="refresh" content="0;url=keepassweb.html">
-              <script>window.location.replace('keepassweb.html')</script>
-            </head>
-            <body>
-              <a href="keepassweb.html">KeePass Web</a>
-            </body>
-            </html>
         run: |
           tag="${{ inputs.release-tag }}"
           branch="deploy/${tag}"
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "${branch}"
-          printf '%s' "$INDEX_HTML" > index.html
-          git add keepassweb-0x67.html keepassweb.html index.html
+          git add keepass-web-0x67.html keepass-web-router.html index.html CNAME
           git commit -m "Deploy ${tag}"
           git push --force origin "${branch}"
 
