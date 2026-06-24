@@ -59,9 +59,27 @@ h1 {
   margin-bottom: 1.25rem;
 }
 
-.description {
+p {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.8rem;
   color: var(--muted);
   margin-bottom: 2.5rem;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 a {
@@ -71,59 +89,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-.open {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
-}
-
-.open a {
-  display: block;
-  padding: 0.85rem 1.5rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 500;
-  transition: opacity 0.15s;
-}
-
-.open a:hover {
-  opacity: 0.85;
-}
-
-.open a.primary {
-  background: var(--accent);
-  color: var(--bg);
-}
-
-.open a.secondary {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.open .note {
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin-top: -0.25rem;
-}
-
-.trust {
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  padding: 1rem 1.25rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 2rem;
-  text-align: left;
-}
-
-.links {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
 }
 
 footer {
@@ -138,26 +103,14 @@ footer {
   <main>
     <div class="wordmark">KeePass Web</div>
     <h1>Your passwords.<br>Your storage.<br>Your browser.</h1>
-    <p class="description">
-      A KDBX password manager that runs entirely in your browser —
+    <p>
+      A KDBX password manager that runs entirely in your browser:
       no installation, no servers, no secrets leaving your machine.
     </p>
-
-    <div class="open">
-      <a class="primary" href="keepass-web-router.html">Open a database</a>
-      <p class="note">Detects KDBX format automatically.</p>
-      <a class="secondary" href="keepass-web-0x67.html">Open a KDBX 3.1 / 4.x database directly</a>
-    </div>
-
-    <div class="trust">
-      <strong>This file is identical to what is served at keepass-web.app.</strong>
-      Every file on the hosted site is a verbatim copy of a published release artifact.
-      Download the release, verify the published checksum, and trust what you audit.
-    </div>
-
+    <div class="badge">Coming soon</div>
     <div class="links">
-      <a href="https://github.com/keepass-web">GitHub</a>
-      <a href="https://github.com/sponsors/keepass-web">Sponsor</a>
+      <a href="https://github.com/keepass-web">Follow development on GitHub</a>
+      <a href="https://github.com/sponsors/keepass-web">Become a GitHub Sponsor</a>
     </div>
   </main>
   <footer>MIT licensed &middot; <a href="https://github.com/keepass-web">github.com/keepass-web</a></footer>
