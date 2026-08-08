@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>KeePass Web — Parked Domain</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 7V5a3.5 3.5 0 0 1 7 0v2' fill='none' stroke='%230e7c5a' stroke-width='2' stroke-linecap='round'/%3E%3Crect x='2' y='7' width='12' height='8' rx='2' fill='%230e7c5a'/%3E%3C/svg%3E">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #eef2ef;
+  --surface: #ffffff;
+  --border: #d8e2dc;
+  --text: #0e1714;
+  --muted: #5a6a62;
+  --accent: #0e7c5a;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+main {
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.mark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.mark::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 12px;
+  height: 10px;
+  border: 2.5px solid var(--accent);
+  border-bottom: none;
+  border-radius: 7px 7px 0 0;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 18px;
+  height: 11px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.description {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.go {
+  display: block;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: opacity 0.15s;
+}
+
+.go:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.notice {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.notice strong {
+  color: var(--text);
+}
+
+footer {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="wordmark"><span class="mark"></span>KeePass Web</div>
+  <h1>This domain is parked.</h1>
+  <p class="description">
+    This page is held by the team behind KeePass Web to keep it from being
+    used to impersonate the real application. It has no functionality of
+    its own.
+  </p>
+  <a class="go" href="https://keepass-web.app/">Go to keepass-web.app</a>
+  <div class="notice">
+    <strong>There is no login form on this page.</strong> Never enter your
+    KeePass master password here, or anywhere other than
+    <a href="https://keepass-web.app/">keepass-web.app</a>.
+  </div>
+  <footer>
+    Source: <a href="https://github.com/keepass-web/keepass-web.github.io">github.com/keepass-web/keepass-web.github.io</a>
+  </footer>
+</main>
+</body>
+</html>
